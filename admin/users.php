@@ -19,21 +19,21 @@ require __DIR__ . '/../includes/header.php';
 <main class="container py-4 dashboard-main">
   <?= flash_render() ?>
 
-  <!-- Top Hero & Search Banner with Entrance Animation -->
-  <div class="card dashboard-card dashboard-banner p-4 mb-4 animate-slide-up-1">
+  <!-- Box 1: Top Hero & Search Banner (Electric Purple & Indigo Box) -->
+  <div class="card dashboard-card box-purple p-4 mb-4 animate-slide-up-1">
     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
       <div>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-1 small">
-            <li class="breadcrumb-item"><a href="../dashboard.php" class="text-teal"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Users</li>
+            <li class="breadcrumb-item"><a href="../dashboard.php" class="text-info"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
+            <li class="breadcrumb-item active text-light" aria-current="page">Users</li>
           </ol>
         </nav>
         <div class="d-flex align-items-center gap-2">
-          <h1 class="h3 fw-bold mb-0 text-dark">User Management</h1>
-          <span class="badge bg-teal rounded-pill px-3 py-1"><?= count($users) ?> Total</span>
+          <h1 class="h3 fw-bold mb-0 text-white">User Management</h1>
+          <span class="badge badge-gradient-purple rounded-pill px-3 py-1"><?= count($users) ?> Total</span>
         </div>
-        <p class="text-muted small mb-0 mt-1">Search, monitor, create, and manage registered system accounts.</p>
+        <p class="text-secondary small mb-0 mt-1">Search, monitor, create, and manage registered system accounts.</p>
       </div>
 
       <div class="d-flex flex-wrap align-items-center gap-2">
@@ -46,62 +46,62 @@ require __DIR__ . '/../includes/header.php';
             <?php endif; ?>
           </div>
         </form>
-        <a href="user_form.php" class="btn btn-teal text-nowrap px-3 shadow-sm">
+        <a href="user_form.php" class="btn btn-purple text-nowrap px-3 shadow">
           <i class="bi bi-person-plus-fill me-1"></i> Add User
         </a>
       </div>
     </div>
   </div>
 
-  <!-- Users Table Card with Entrance Animation -->
-  <div class="card dashboard-card overflow-hidden mb-4 animate-slide-up-2">
+  <!-- Box 2: Users Table Card (Cyan & Sky Blue Box) -->
+  <div class="card dashboard-card box-cyan overflow-hidden mb-4 animate-slide-up-2">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
+        <thead>
           <tr>
-            <th class="ps-4 text-secondary text-uppercase small fw-bold" style="letter-spacing:0.04em;">#</th>
-            <th class="text-secondary text-uppercase small fw-bold" style="letter-spacing:0.04em;">User</th>
-            <th class="text-secondary text-uppercase small fw-bold" style="letter-spacing:0.04em;">Phone</th>
-            <th class="text-secondary text-uppercase small fw-bold" style="letter-spacing:0.04em;">Role</th>
-            <th class="text-secondary text-uppercase small fw-bold" style="letter-spacing:0.04em;">Joined Date</th>
-            <th class="text-end pe-4 text-secondary text-uppercase small fw-bold" style="letter-spacing:0.04em;">Actions</th>
+            <th class="ps-4 text-uppercase small fw-bold" style="letter-spacing:0.04em;">#</th>
+            <th class="text-uppercase small fw-bold" style="letter-spacing:0.04em;">User</th>
+            <th class="text-uppercase small fw-bold" style="letter-spacing:0.04em;">Phone</th>
+            <th class="text-uppercase small fw-bold" style="letter-spacing:0.04em;">Role</th>
+            <th class="text-uppercase small fw-bold" style="letter-spacing:0.04em;">Joined Date</th>
+            <th class="text-end pe-4 text-uppercase small fw-bold" style="letter-spacing:0.04em;">Actions</th>
           </tr>
         </thead>
         <tbody>
         <?php foreach ($users as $r): ?>
           <tr>
-            <td class="ps-4 text-muted fw-semibold"><?= (int)$r['id'] ?></td>
+            <td class="ps-4 text-secondary fw-semibold"><?= (int)$r['id'] ?></td>
             <td>
               <div class="d-flex align-items-center gap-3">
                 <div class="avatar-wrapper">
                   <?= avatar_html($r, 42) ?>
                 </div>
                 <div>
-                  <div class="fw-bold text-dark mb-0"><?= e($r['full_name']) ?></div>
-                  <div class="small text-muted"><i class="bi bi-envelope me-1"></i><?= e($r['email']) ?></div>
+                  <div class="fw-bold text-white mb-0"><?= e($r['full_name']) ?></div>
+                  <div class="small text-secondary"><i class="bi bi-envelope me-1 text-info"></i><?= e($r['email']) ?></div>
                 </div>
               </div>
             </td>
             <td>
               <?php if ($r['phone']): ?>
-                <span class="text-dark small"><i class="bi bi-telephone text-muted me-1"></i><?= e($r['phone']) ?></span>
+                <span class="text-light small"><i class="bi bi-telephone text-success me-1"></i><?= e($r['phone']) ?></span>
               <?php else: ?>
-                <span class="text-muted small">-</span>
+                <span class="text-secondary small">-</span>
               <?php endif; ?>
             </td>
             <td>
               <?php if ($r['role'] === 'Admin'): ?>
-                <span class="badge bg-teal rounded-pill px-3 py-1 shadow-sm">
+                <span class="badge badge-gradient-purple rounded-pill px-3 py-1">
                   <i class="bi bi-shield-check me-1"></i>Admin
                 </span>
               <?php else: ?>
-                <span class="badge bg-light text-dark border rounded-pill px-3 py-1">
+                <span class="badge badge-gradient-teal rounded-pill px-3 py-1">
                   <i class="bi bi-person me-1"></i>User
                 </span>
               <?php endif; ?>
             </td>
-            <td class="text-nowrap small text-muted">
-              <i class="bi bi-calendar3 me-1"></i><?= e(date('d M Y', strtotime($r['created_at']))) ?>
+            <td class="text-nowrap small text-secondary">
+              <i class="bi bi-calendar3 me-1 text-info"></i><?= e(date('d M Y', strtotime($r['created_at']))) ?>
             </td>
             <td class="text-end pe-4 text-nowrap">
               <a class="btn btn-sm btn-outline-teal me-1" href="user_form.php?id=<?= (int)$r['id'] ?>" title="Edit User">
@@ -112,7 +112,7 @@ require __DIR__ . '/../includes/header.php';
                 <i class="bi bi-trash"></i>
               </button>
               <?php else: ?>
-              <span class="badge bg-light text-muted border small">Current</span>
+              <span class="badge border border-secondary text-secondary small">Current</span>
               <?php endif; ?>
             </td>
           </tr>
@@ -121,9 +121,9 @@ require __DIR__ . '/../includes/header.php';
           <tr>
             <td colspan="6" class="text-center text-muted py-5">
               <div class="py-4">
-                <i class="bi bi-people text-muted opacity-50 display-4 d-block mb-3"></i>
-                <h6 class="fw-semibold text-dark mb-1">No users found</h6>
-                <p class="small text-muted mb-0">Try adjusting your search criteria or add a new user.</p>
+                <i class="bi bi-people text-secondary opacity-50 display-4 d-block mb-3"></i>
+                <h6 class="fw-semibold text-white mb-1">No users found</h6>
+                <p class="small text-secondary mb-0">Try adjusting your search criteria or add a new user.</p>
               </div>
             </td>
           </tr>
@@ -136,20 +136,20 @@ require __DIR__ . '/../includes/header.php';
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <form class="modal-content border-0 shadow-lg" method="post" action="delete_user.php" style="border-radius:1.25rem; overflow:hidden;">
+    <form class="modal-content border-0 shadow-lg box-rose" method="post" action="delete_user.php" style="border-radius:1.25rem; overflow:hidden;">
       <?= csrf_field() ?>
       <input type="hidden" name="id" id="delete-id">
       <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i>Delete User</h5>
+        <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i>Delete User Account</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body p-4">
-        <p class="mb-2">Are you sure you want to permanently delete <strong id="delete-name" class="text-dark"></strong>?</p>
-        <p class="text-muted small mb-0"><i class="bi bi-info-circle me-1"></i>This action cannot be undone and will permanently remove this user account.</p>
+        <p class="mb-2 text-white">Are you sure you want to permanently delete <strong id="delete-name" class="text-warning"></strong>?</p>
+        <p class="text-secondary small mb-0"><i class="bi bi-info-circle me-1 text-danger"></i>This action cannot be undone and will permanently remove this user account from the system.</p>
       </div>
-      <div class="modal-footer bg-light border-top-0 px-4 py-3">
+      <div class="modal-footer border-top-0 px-4 py-3" style="background: rgba(0, 0, 0, 0.2);">
         <button type="button" class="btn btn-outline-secondary px-3" data-bs-dismiss="modal">Cancel</button>
-        <button class="btn btn-danger px-4 shadow-sm"><i class="bi bi-trash me-1"></i>Yes, Delete</button>
+        <button class="btn btn-danger px-4 shadow"><i class="bi bi-trash me-1"></i>Yes, Delete</button>
       </div>
     </form>
   </div>
