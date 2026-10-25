@@ -1,4 +1,3 @@
-// Bootstrap client-side validation (server-side validation is still the source of truth)
 document.querySelectorAll('.needs-validation').forEach(form => {
   form.addEventListener('submit', e => {
     const pw = form.querySelector('#password'), cf = form.querySelector('#confirm');
@@ -8,7 +7,6 @@ document.querySelectorAll('.needs-validation').forEach(form => {
   });
 });
 
-// Show / hide password
 document.querySelectorAll('.toggle-pw').forEach(btn => {
   btn.addEventListener('click', () => {
     const input = btn.parentElement.querySelector('input');
@@ -18,7 +16,6 @@ document.querySelectorAll('.toggle-pw').forEach(btn => {
   });
 });
 
-// Delete confirmation popup
 const modalEl = document.getElementById('deleteModal');
 if (modalEl) {
   const modal = new bootstrap.Modal(modalEl);
@@ -29,7 +26,6 @@ if (modalEl) {
   }));
 }
 
-// Profile picture: size/type check + live preview
 const avatar = document.getElementById('avatar');
 if (avatar) {
   avatar.addEventListener('change', () => {

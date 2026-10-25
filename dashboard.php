@@ -2,7 +2,7 @@
 require __DIR__ . '/includes/init.php';
 require_login();
 $u = get_user($conn, (int)$_SESSION['user_id']);
-if (!$u) { session_destroy(); redirect('login.php'); }          // account deleted while logged in
+if (!$u) { session_destroy(); redirect('login.php'); }     
 
 $total = is_admin() ? (int)$conn->query('SELECT COUNT(*) FROM users')->fetch_row()[0] : null;
 $pageTitle = 'Dashboard';

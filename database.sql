@@ -1,4 +1,3 @@
--- User Management System - database schema (3NF)
 CREATE DATABASE IF NOT EXISTS user_management CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE user_management;
 

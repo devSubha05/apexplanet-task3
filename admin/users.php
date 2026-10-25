@@ -55,7 +55,6 @@ require __DIR__ . '/../includes/header.php';
   </div>
 </main>
 
-<!-- Delete confirmation popup -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <form class="modal-content" method="post" action="delete_user.php">

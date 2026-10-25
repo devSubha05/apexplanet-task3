@@ -1,11 +1,9 @@
 <?php
-// Database configuration - change these to match your XAMPP/WAMP setup
 const DB_HOST = 'localhost';
 const DB_USER = 'root';
 const DB_PASS = '';
 const DB_NAME = 'user_management';
 
-// Auto-detect BASE_URL (empty string for root / localhost:8000, or /user-management if hosted under subdirectory)
 $isSubdir = isset($_SERVER['REQUEST_URI']) && str_starts_with($_SERVER['REQUEST_URI'], '/user-management');
 define('BASE_URL', $isSubdir ? '/user-management' : '');
 

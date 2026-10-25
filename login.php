@@ -15,14 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $st->close();
 
     if ($user && password_verify($pass, $user['password_hash'])) {
-        session_regenerate_id(true);                          // prevent session fixation
+        session_regenerate_id(true);                          
         $_SESSION['user_id'] = (int)$user['id'];
         $_SESSION['name']    = $user['full_name'];
         $_SESSION['role']    = $user['role'];
         flash('success', 'Welcome back, ' . $user['full_name'] . '!');
-        redirect($user['role'] === 'Admin' ? 'admin/users.php' : 'dashboard.php');   // role-based redirect
+        redirect($user['role'] === 'Admin' ? 'admin/users.php' : 'dashboard.php');   
     }
-    $error = 'Invalid email or password.';                    // same message for both cases
+    $error = 'Invalid email or password.';
 }
 $pageTitle = 'Login';
 require __DIR__ . '/includes/header.php';

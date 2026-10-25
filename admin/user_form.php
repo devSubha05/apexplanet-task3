@@ -1,5 +1,4 @@
 <?php
-// Handles both ADD (no id) and UPDATE (?id=) of a user.
 require __DIR__ . '/../includes/init.php';
 require_admin();
 

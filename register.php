@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($pass !== $conf)                $errors['confirm'] = 'Passwords do not match.';
 
     if (!$errors) {
-        $rid  = role_id($conn, 'User');                       // public sign-ups are always "User"
-        $hash = password_hash($pass, PASSWORD_DEFAULT);       // bcrypt hash
+        $rid  = role_id($conn, 'User');  
+        $hash = password_hash($pass, PASSWORD_DEFAULT);
         $st = $conn->prepare('INSERT INTO users (role_id, full_name, email, password_hash) VALUES (?, ?, ?, ?)');
         $st->bind_param('isss', $rid, $old['full_name'], $old['email'], $hash);
         $st->execute();

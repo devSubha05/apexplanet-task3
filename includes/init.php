@@ -5,14 +5,12 @@ require_once __DIR__ . '/../config/db.php';
 session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax']);
 session_start();
 
-const MAX_UPLOAD_BYTES = 2 * 1024 * 1024; // 2 MB
+const MAX_UPLOAD_BYTES = 2 * 1024 * 1024;
 const UPLOAD_DIR = __DIR__ . '/../uploads/avatars/';
 
-/* ---------- Output / redirect ---------- */
 function e(?string $s): string { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 function redirect(string $path): never { header('Location: ' . BASE_URL . '/' . ltrim($path, '/')); exit; }
 
-/* ---------- Flash messages ---------- */
 function flash(string $type, string $msg): void { $_SESSION['flash'][] = [$type, $msg]; }
 function flash_render(): string {
     $out = '';
@@ -24,7 +22,6 @@ function flash_render(): string {
     return $out;
 }
 
-/* ---------- CSRF ---------- */
 function csrf_token(): string {
     if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(32));
     return $_SESSION['csrf'];
@@ -37,7 +34,6 @@ function csrf_check(): void {
     }
 }
 
-/* ---------- Auth ---------- */
 function is_logged_in(): bool { return isset($_SESSION['user_id']); }
 function is_admin(): bool { return ($_SESSION['role'] ?? '') === 'Admin'; }
 function require_login(): void { if (!is_logged_in()) { flash('warning', 'Please log in first.'); redirect('login.php'); } }
@@ -64,7 +60,6 @@ function role_id(mysqli $c, string $name): ?int {
     return $row ? (int)$row['id'] : null;
 }
 
-/* ---------- Server-side validation (return error string or '') ---------- */
 function v_name(string $s): string {
     if ($s === '' || mb_strlen($s) < 2 || mb_strlen($s) > 100) return 'Name must be 2-100 characters.';
     if (!preg_match("/^[\p{L} .'-]+$/u", $s)) return 'Name can only contain letters, spaces, . \' and -.';
@@ -93,8 +88,6 @@ function email_taken(mysqli $c, string $email, int $exceptId = 0): bool {
     return $taken;
 }
 
-/* ---------- Profile picture upload (size + type validation) ---------- */
-// Returns [filename|null, error]. Pass the $_FILES entry.
 function save_avatar(array $f): array {
     if (($f['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) return [null, ''];
     if ($f['error'] !== UPLOAD_ERR_OK) return [null, 'Upload failed. Try again.'];
