@@ -1,15 +1,50 @@
 @echo off
 title ApexPlanet Task-3 - User Management Server
+cls
 
-echo Starting MySQL / MariaDB Server...
+echo ========================================================
+echo       ApexPlanet Task-3 - User Management Server
+echo ========================================================
+echo.
+
+:: 1. Check and start MariaDB / MySQL Server
+echo [1/2] Checking MySQL / MariaDB Server...
 tasklist /FI "IMAGENAME eq mysqld.exe" 2>NUL | find /I /N "mysqld.exe">NUL
 if "%ERRORLEVEL%"=="0" (
-    echo [OK] MySQL is already running.
+    echo [OK] MySQL / MariaDB is already running on port 3306.
 ) else (
-    start "" /B "C:\Program Files\MariaDB 13.0\bin\mysqld.exe"
-    echo [OK] MySQL server started on port 3306.
+    echo Starting MySQL / MariaDB server...
+    if exist "C:\Program Files\MariaDB 13.0\bin\mysqld.exe" (
+        start "MariaDB Server" /min "C:\Program Files\MariaDB 13.0\bin\mysqld.exe" --defaults-file="C:\Program Files\MariaDB 13.0\data\my.ini" --console
+    ) else if exist "C:\xampp\mysql\bin\mysqld.exe" (
+        start "MySQL Server" /min "C:\xampp\mysql\bin\mysqld.exe" --console
+    ) else (
+        start "MySQL Server" /min mysqld --console
+    )
+
+    :: Allow MariaDB 2 seconds to initialize
+    ping 127.0.0.1 -n 3 >NUL
+
+    tasklist /FI "IMAGENAME eq mysqld.exe" 2>NUL | find /I /N "mysqld.exe">NUL
+    if "%ERRORLEVEL%"=="0" (
+        echo [OK] MySQL server started successfully on port 3306.
+    ) else (
+        echo [WARNING] MySQL did not respond immediately. Please verify MariaDB service.
+    )
 )
-echo Starting PHP server at http://localhost:8000
-echo Open http://localhost:8000 in your browser.
-echo Press Ctrl+C to stop the server.
+
+echo.
+:: 2. Start PHP Built-in Server
+echo [2/2] Starting PHP server at http://localhost:8000 ...
+echo.
+echo ========================================================
+echo  Server is running at: http://localhost:8000
+echo  Press Ctrl+C to stop the PHP server.
+echo ========================================================
+echo.
+
+:: Automatically open default browser after a short delay
+start "" cmd /c "ping 127.0.0.1 -n 2 >NUL & start http://localhost:8000"
+
+:: Start PHP server
 php -S localhost:8000
