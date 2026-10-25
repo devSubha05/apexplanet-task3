@@ -124,10 +124,30 @@ body::after,
 /* ========================================================
    MANY COLOUR ADD BOX - MULTI-COLOR BOXES & CARDS
    ======================================================== */
-.dashboard-main,
-.auth-wrap {
+.dashboard-main {
   position: relative;
   z-index: 1;
+}
+
+.auth-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 1.15rem;
+  margin: 0 auto;
+}
+
+.auth-card.auth-card-register {
+  max-width: 410px;
 }
 
 .dashboard-card,
@@ -136,7 +156,6 @@ body::after,
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--card-border);
-  border-radius: 1.25rem;
   box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.4);
   position: relative;
   overflow: hidden;
