@@ -6,9 +6,12 @@
   <title><?= e($pageTitle ?? 'User Management') ?> | User Management System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="<?= BASE_URL ?>/assets/css/style.css" rel="stylesheet">
 </head>
-<body class="<?= is_logged_in() ? '' : 'auth-bg' ?>">
+<body class="<?= !empty($bodyClass) ? e($bodyClass) : (is_logged_in() ? '' : 'auth-bg') ?>">
 <?php if (is_logged_in()): ?>
 <nav class="navbar navbar-expand-md navbar-dark bg-teal sticky-top">
   <div class="container">

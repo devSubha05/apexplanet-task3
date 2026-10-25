@@ -47,62 +47,130 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $u['full_name'] = $name; $u['phone'] = $phone; $u['bio'] = $bio;   // keep typed values
 }
 $pageTitle = 'Edit Profile';
+$bodyClass = 'dashboard-bg';
 require __DIR__ . '/includes/header.php';
 ?>
-<main class="container py-4" style="max-width:820px">
+<main class="container py-4 dashboard-main" style="max-width:880px">
   <?= flash_render() ?>
-  <div class="card shadow-sm">
-    <div class="card-header bg-white fw-semibold">Edit profile</div>
-    <div class="card-body p-4">
-      <form method="post" enctype="multipart/form-data" novalidate class="needs-validation">
-        <?= csrf_field() ?>
-        <div class="row g-4">
-          <div class="col-md-4 text-center">
-            <div class="mb-3" id="avatar-preview-wrap"><?= avatar_html($u, 140) ?></div>
+
+  <!-- Top Navigation & Title Header with Entrance Animation -->
+  <div class="card dashboard-card dashboard-banner p-4 mb-4 animate-slide-up-1">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-1 small">
+            <li class="breadcrumb-item"><a href="dashboard.php" class="text-teal"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+          </ol>
+        </nav>
+        <h1 class="h3 fw-bold mb-1 text-dark">Profile Settings</h1>
+        <p class="text-muted mb-0 small">Update your personal details, avatar photo, and account password.</p>
+      </div>
+      <div>
+        <a href="dashboard.php" class="btn btn-outline-teal btn-sm px-3 py-2">
+          <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Edit Profile Card with Glassmorphism & Entrance Animation -->
+  <div class="card dashboard-card p-4 p-md-5 mb-4 animate-slide-up-2">
+    <div class="d-flex align-items-center gap-2 pb-3 mb-4 border-bottom">
+      <i class="bi bi-pencil-square text-teal fs-4"></i>
+      <h2 class="h5 fw-bold mb-0 text-dark">Personal Information</h2>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" novalidate class="needs-validation">
+      <?= csrf_field() ?>
+      <div class="row g-4">
+        <!-- Avatar Preview and Upload Column -->
+        <div class="col-md-4 text-center">
+          <div class="p-3 bg-light rounded-4 border">
+            <label class="form-label fw-semibold text-muted small mb-3 d-block">Profile Photo</label>
+            <div class="mb-3 avatar-wrapper" id="avatar-preview-wrap">
+              <?= avatar_html($u, 140) ?>
+            </div>
             <input type="file" class="form-control form-control-sm <?= isset($errors['avatar']) ? 'is-invalid' : '' ?>" id="avatar" name="avatar" accept="image/jpeg,image/png,image/webp" data-max="<?= MAX_UPLOAD_BYTES ?>">
-            <div class="invalid-feedback" id="avatar-error"><?= e($errors['avatar'] ?? '') ?></div>
-            <div class="form-text">JPG, PNG or WEBP, max 2 MB.</div>
+            <div class="invalid-feedback text-start" id="avatar-error"><?= e($errors['avatar'] ?? '') ?></div>
+            <div class="form-text small mt-2">JPG, PNG or WEBP (Max 2 MB)</div>
           </div>
-          <div class="col-md-8">
-            <div class="mb-3">
-              <label class="form-label" for="full_name">Full name</label>
-              <input class="form-control <?= isset($errors['full_name']) ? 'is-invalid' : '' ?>" id="full_name" name="full_name" value="<?= e($u['full_name']) ?>" required minlength="2" maxlength="100">
+        </div>
+
+        <!-- User Details and Password Column -->
+        <div class="col-md-8">
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="full_name">Full Name <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <span class="input-group-text bg-white text-teal"><i class="bi bi-person"></i></span>
+              <input class="form-control <?= isset($errors['full_name']) ? 'is-invalid' : '' ?>" id="full_name" name="full_name" value="<?= e($u['full_name']) ?>" required minlength="2" maxlength="100" placeholder="Your full name">
               <div class="invalid-feedback"><?= e($errors['full_name'] ?? 'Enter your name (2-100 characters).') ?></div>
             </div>
-            <div class="mb-3">
-              <label class="form-label" for="email">Email</label>
-              <input class="form-control" id="email" value="<?= e($u['email']) ?>" disabled>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="email">Email Address</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope"></i></span>
+              <input class="form-control bg-light" id="email" value="<?= e($u['email']) ?>" disabled>
             </div>
-            <div class="mb-3">
-              <label class="form-label" for="phone">Phone</label>
-              <input class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>" id="phone" name="phone" value="<?= e($u['phone']) ?>" pattern="\+?[0-9 \-]{7,15}">
+            <div class="form-text small">Email cannot be changed directly for account security.</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="phone">Phone Number</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white text-teal"><i class="bi bi-telephone"></i></span>
+              <input class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>" id="phone" name="phone" value="<?= e($u['phone']) ?>" pattern="\+?[0-9 \-]{7,15}" placeholder="+1 234 567 8900">
               <div class="invalid-feedback"><?= e($errors['phone'] ?? 'Enter a valid phone number.') ?></div>
             </div>
-            <div class="mb-3">
-              <label class="form-label" for="bio">Bio</label>
-              <textarea class="form-control <?= isset($errors['bio']) ? 'is-invalid' : '' ?>" id="bio" name="bio" rows="3" maxlength="500"><?= e($u['bio']) ?></textarea>
-              <div class="invalid-feedback"><?= e($errors['bio'] ?? 'Max 500 characters.') ?></div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold" for="bio">Bio</label>
+            <textarea class="form-control <?= isset($errors['bio']) ? 'is-invalid' : '' ?>" id="bio" name="bio" rows="3" maxlength="500" placeholder="Write a few words about yourself..."><?= e($u['bio']) ?></textarea>
+            <div class="invalid-feedback"><?= e($errors['bio'] ?? 'Max 500 characters.') ?></div>
+          </div>
+
+          <!-- Password Change Section -->
+          <div class="p-3 bg-white rounded-3 border mb-4">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-shield-lock text-teal"></i>
+              <span class="fw-semibold text-dark">Change Password</span>
             </div>
-            <hr>
-            <p class="text-muted small mb-2">Change password (leave blank to keep the current one)</p>
+            <p class="text-muted small mb-3">Leave both fields empty if you don't wish to change your password.</p>
             <div class="row g-3">
               <div class="col-sm-6">
-                <input type="password" class="form-control <?= isset($errors['current_password']) ? 'is-invalid' : '' ?>" name="current_password" placeholder="Current password" autocomplete="current-password">
-                <div class="invalid-feedback"><?= e($errors['current_password'] ?? '') ?></div>
+                <label class="form-label small text-muted">Current Password</label>
+                <div class="input-group">
+                  <input type="password" class="form-control <?= isset($errors['current_password']) ? 'is-invalid' : '' ?>" name="current_password" placeholder="Current password" autocomplete="current-password">
+                  <button class="btn btn-outline-secondary toggle-pw" type="button" tabindex="-1"><i class="bi bi-eye"></i></button>
+                  <div class="invalid-feedback"><?= e($errors['current_password'] ?? '') ?></div>
+                </div>
               </div>
               <div class="col-sm-6">
-                <input type="password" class="form-control <?= isset($errors['new_password']) ? 'is-invalid' : '' ?>" name="new_password" placeholder="New password" autocomplete="new-password">
-                <div class="invalid-feedback"><?= e($errors['new_password'] ?? '') ?></div>
+                <label class="form-label small text-muted">New Password</label>
+                <div class="input-group">
+                  <input type="password" class="form-control <?= isset($errors['new_password']) ? 'is-invalid' : '' ?>" name="new_password" placeholder="New password (min 8 chars)" autocomplete="new-password">
+                  <button class="btn btn-outline-secondary toggle-pw" type="button" tabindex="-1"><i class="bi bi-eye"></i></button>
+                  <div class="invalid-feedback"><?= e($errors['new_password'] ?? '') ?></div>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Form Buttons -->
+          <div class="d-flex justify-content-end align-items-center gap-2 mt-4 pt-3 border-top">
+            <a href="dashboard.php" class="btn btn-outline-secondary px-4 py-2">
+              Cancel
+            </a>
+            <button class="btn btn-teal px-4 py-2 shadow-sm">
+              <i class="bi bi-check2-circle me-1"></i> Save Changes
+            </button>
+          </div>
         </div>
-        <div class="text-end mt-4">
-          <a href="dashboard.php" class="btn btn-light">Cancel</a>
-          <button class="btn btn-teal">Save changes</button>
-        </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </main>
 <?php require __DIR__ . '/includes/footer.php'; ?>
