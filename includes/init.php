@@ -41,7 +41,7 @@ function require_admin(): void {
     require_login();
     if (!is_admin()) { http_response_code(403); exit('403 - Admins only.'); }
 }
-function guest_only(): void { if (is_logged_in()) redirect(is_admin() ? 'admin/users.php' : 'dashboard.php'); }
+function guest_only(): void { if (is_logged_in()) redirect('dashboard.php'); }
 
 function get_user(mysqli $c, int $id): ?array {
     $st = $c->prepare('SELECT u.*, r.name AS role FROM users u JOIN roles r ON r.id = u.role_id WHERE u.id = ?');

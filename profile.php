@@ -39,12 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $st = $conn->prepare('UPDATE users SET full_name = ?, phone = ?, bio = ?, profile_picture = ?, password_hash = ? WHERE id = ?');
         $st->bind_param('sssssi', $name, $phoneDb, $bioDb, $pic, $hash, $id);
         $st->execute();
-        if ($newPic) delete_avatar($u['profile_picture']);      // remove the old picture
+        if ($newPic) delete_avatar($u['profile_picture']);
         $_SESSION['name'] = $name;
         flash('success', 'Profile updated successfully.');
         redirect('profile.php');
     }
-    $u['full_name'] = $name; $u['phone'] = $phone; $u['bio'] = $bio;   // keep typed values
+    $u['full_name'] = $name; $u['phone'] = $phone; $u['bio'] = $bio;
 }
 $pageTitle = 'Edit Profile';
 $bodyClass = 'dashboard-bg';
@@ -53,7 +53,6 @@ require __DIR__ . '/includes/header.php';
 <main class="container py-4 dashboard-main" style="max-width:880px">
   <?= flash_render() ?>
 
-  <!-- Box 1: Top Navigation Banner (Cyan & Sky Blue Box) -->
   <div class="card dashboard-card box-cyan p-4 mb-4 animate-slide-up-1">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
       <div>
@@ -74,7 +73,6 @@ require __DIR__ . '/includes/header.php';
     </div>
   </div>
 
-  <!-- Box 2: Main Profile Form Card (Electric Purple & Indigo Box) -->
   <div class="card dashboard-card box-purple p-4 p-md-5 mb-4 animate-slide-up-2">
     <div class="d-flex align-items-center gap-3 pb-3 mb-4 border-bottom border-secondary border-opacity-25">
       <span class="icon-box-purple"><i class="bi bi-pencil-square"></i></span>
@@ -87,7 +85,7 @@ require __DIR__ . '/includes/header.php';
     <form method="post" enctype="multipart/form-data" novalidate class="needs-validation">
       <?= csrf_field() ?>
       <div class="row g-4">
-        <!-- Box 3: Avatar Preview & Upload Column (Mint & Emerald Box Container) -->
+
         <div class="col-md-4 text-center">
           <div class="p-3 rounded-4 border box-emerald" style="background: rgba(15, 23, 42, 0.6); border-color: rgba(255, 255, 255, 0.08) !important;">
             <label class="form-label fw-bold text-info small mb-3 d-block text-uppercase" style="letter-spacing:0.04em;">Profile Photo</label>
@@ -100,7 +98,6 @@ require __DIR__ . '/includes/header.php';
           </div>
         </div>
 
-        <!-- Details Column -->
         <div class="col-md-8">
           <div class="mb-3">
             <label class="form-label fw-semibold text-light" for="full_name">Full Name <span class="text-danger">*</span></label>
@@ -135,7 +132,6 @@ require __DIR__ . '/includes/header.php';
             <div class="invalid-feedback"><?= e($errors['bio'] ?? 'Max 500 characters.') ?></div>
           </div>
 
-          <!-- Box 4: Password Change Box (Vivid Rose & Pink Box) -->
           <div class="p-3 rounded-3 border mb-4 box-rose" style="background: rgba(15, 23, 42, 0.65); border-color: rgba(255, 255, 255, 0.08) !important;">
             <div class="d-flex align-items-center gap-2 mb-2">
               <span class="icon-box-rose" style="width:34px; height:34px; font-size:1rem;"><i class="bi bi-shield-lock"></i></span>
@@ -162,7 +158,6 @@ require __DIR__ . '/includes/header.php';
             </div>
           </div>
 
-          <!-- Action Buttons -->
           <div class="d-flex justify-content-end align-items-center gap-2 mt-4 pt-3 border-top border-secondary border-opacity-25">
             <a href="dashboard.php" class="btn btn-outline-secondary px-4 py-2">
               Cancel

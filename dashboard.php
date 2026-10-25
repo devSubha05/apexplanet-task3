@@ -4,11 +4,14 @@ require_login();
 $u = get_user($conn, (int)$_SESSION['user_id']);
 if (!$u) { session_destroy(); redirect('login.php'); }     
 
-$total = is_admin() ? (int)$conn->query('SELECT COUNT(*) FROM users')->fetch_row()[0] : null;
-$pageTitle = 'Dashboard';
+$isAdmin = is_admin();
+$total = $isAdmin ? (int)$conn->query('SELECT COUNT(*) FROM users')->fetch_row()[0] : null;
+$totalAdmins = $isAdmin ? (int)$conn->query("SELECT COUNT(*) FROM users u JOIN roles r ON r.id = u.role_id WHERE r.name = 'Admin'")->fetch_row()[0] : null;
+$totalUsers = $isAdmin ? max(0, $total - $totalAdmins) : null;
+
+$pageTitle = $isAdmin ? 'Admin Dashboard' : 'Dashboard';
 $bodyClass = 'dashboard-bg';
 
-// Dynamic greeting based on current hour
 $hour = (int)date('G');
 if ($hour >= 5 && $hour < 12) {
     $greeting = 'Good morning';
@@ -23,36 +26,41 @@ require __DIR__ . '/includes/header.php';
 <main class="container py-4 dashboard-main">
   <?= flash_render() ?>
 
-  <!-- Box 1: Welcome Hero Banner (Rainbow / Multicolor Iridescent Box) -->
   <div class="card dashboard-card box-multicolor p-4 mb-4 animate-slide-up-1">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
       <div>
         <div class="d-inline-flex align-items-center gap-2 mb-2 px-3 py-1 rounded-pill border small" style="background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12) !important;">
           <span class="status-indicator-dot"></span>
-          <span class="text-light fw-medium">Portal Active</span>
+          <span class="text-light fw-medium"><?= $isAdmin ? 'Administrator Mode' : 'Portal Active' ?></span>
           <span class="text-secondary">•</span>
           <span class="text-info"><?= date('l, d F Y') ?></span>
         </div>
         <h1 class="h3 fw-bold mb-1 text-white">
           <?= e($greeting) ?>, <span class="brand-gradient"><?= e($u['full_name']) ?></span> <span class="hand-wave">👋</span>
         </h1>
-        <p class="text-secondary mb-0 small">Welcome to your high-performance User Management command center.</p>
+        <p class="text-secondary mb-0 small">
+          <?= $isAdmin 
+              ? 'Welcome to the Administrator Command Center. Monitor system metrics and manage user privileges.' 
+              : 'Welcome back to your User Management dashboard.' ?>
+        </p>
       </div>
-      <div class="d-flex gap-2">
+      <div class="d-flex flex-wrap gap-2">
+        <?php if ($isAdmin): ?>
+        <a href="admin/users.php" class="btn btn-purple px-3 py-2 shadow">
+          <i class="bi bi-people-fill me-1"></i> Manage Users
+        </a>
+        <a href="admin/user_form.php" class="btn btn-teal px-3 py-2 shadow">
+          <i class="bi bi-person-plus-fill me-1"></i> Add User
+        </a>
+        <?php endif; ?>
         <a href="profile.php" class="btn btn-outline-teal px-3 py-2">
           <i class="bi bi-person-gear me-1"></i> Account Settings
         </a>
-        <?php if (is_admin()): ?>
-        <a href="admin/users.php" class="btn btn-purple px-3 py-2">
-          <i class="bi bi-people-fill me-1"></i> Manage Users
-        </a>
-        <?php endif; ?>
       </div>
     </div>
   </div>
 
   <div class="row g-4">
-    <!-- Box 2: Left Column Profile Card (Teal & Emerald Box) -->
     <div class="col-md-4">
       <div class="card dashboard-card box-teal text-center h-100 animate-slide-up-2">
         <div class="card-body p-4 d-flex flex-column justify-content-center">
@@ -63,8 +71,8 @@ require __DIR__ . '/includes/header.php';
           </div>
           <h2 class="h5 fw-bold mb-1 text-white"><?= e($u['full_name']) ?></h2>
           <div class="mb-3">
-            <span class="badge <?= is_admin() ? 'badge-gradient-purple' : 'badge-gradient-teal' ?> px-3 py-2 rounded-pill">
-              <i class="bi <?= is_admin() ? 'bi-shield-check' : 'bi-person-check' ?> me-1"></i><?= e($u['role']) ?>
+            <span class="badge <?= $isAdmin ? 'badge-gradient-purple' : 'badge-gradient-teal' ?> px-3 py-2 rounded-pill">
+              <i class="bi <?= $isAdmin ? 'bi-shield-check' : 'bi-person-check' ?> me-1"></i><?= e($u['role']) ?>
             </span>
           </div>
           <p class="text-secondary small mb-4">
@@ -79,9 +87,51 @@ require __DIR__ . '/includes/header.php';
       </div>
     </div>
 
-    <!-- Box 3 & 4: Right Column Details & Admin Stats (Purple & Multi-color Boxes) -->
     <div class="col-md-8">
-      <!-- Box 3: Profile Information Card (Electric Purple & Indigo Box) -->
+      <?php if ($isAdmin): ?>
+      <div class="row g-3 mb-4 animate-slide-up-3">
+        <div class="col-sm-6 col-lg-4">
+          <div class="card stat-card-gradient stat-gradient-amber p-3 h-100">
+            <div class="d-flex align-items-center gap-3">
+              <div class="stat-icon-bubble" style="width:48px; height:48px; font-size:1.4rem;">
+                <i class="bi bi-people-fill"></i>
+              </div>
+              <div>
+                <div class="text-white-50 small text-uppercase fw-bold" style="font-size:0.7rem; letter-spacing:0.04em;">Total Users</div>
+                <div class="h3 fw-bold text-white mb-0"><?= $total ?></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="card stat-card-gradient stat-gradient-purple p-3 h-100">
+            <div class="d-flex align-items-center gap-3">
+              <div class="stat-icon-bubble" style="width:48px; height:48px; font-size:1.4rem;">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <div>
+                <div class="text-white-50 small text-uppercase fw-bold" style="font-size:0.7rem; letter-spacing:0.04em;">Admins</div>
+                <div class="h3 fw-bold text-white mb-0"><?= $totalAdmins ?></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-4">
+          <div class="card stat-card-gradient stat-gradient-cyan p-3 h-100">
+            <div class="d-flex align-items-center gap-3">
+              <div class="stat-icon-bubble" style="width:48px; height:48px; font-size:1.4rem;">
+                <i class="bi bi-person-check"></i>
+              </div>
+              <div>
+                <div class="text-white-50 small text-uppercase fw-bold" style="font-size:0.7rem; letter-spacing:0.04em;">Members</div>
+                <div class="h3 fw-bold text-white mb-0"><?= $totalUsers ?></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <?php endif; ?>
+
       <div class="card dashboard-card box-purple mb-4 animate-slide-up-3">
         <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 fw-bold text-white py-3 px-4 d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center gap-2">
@@ -125,28 +175,6 @@ require __DIR__ . '/includes/header.php';
           </li>
         </ul>
       </div>
-
-      <?php if (is_admin()): ?>
-      <!-- Box 4: Admin Metric Box (Sunset Amber & Warm Orange Box) -->
-      <div class="card stat-card-gradient stat-gradient-amber p-4 animate-slide-up-4">
-        <div class="card-body p-0 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
-          <div class="d-flex align-items-center gap-3">
-            <div class="stat-icon-bubble">
-              <i class="bi bi-people-fill"></i>
-            </div>
-            <div>
-              <div class="text-white-50 small text-uppercase fw-bold" style="letter-spacing: 0.06em;">Total Registered Users</div>
-              <div class="display-6 fw-bold text-white"><?= $total ?></div>
-            </div>
-          </div>
-          <div>
-            <a href="admin/users.php" class="btn btn-light text-dark fw-bold px-4 py-2 shadow">
-              <i class="bi bi-shield-lock me-1"></i> Manage Users
-            </a>
-          </div>
-        </div>
-      </div>
-      <?php endif; ?>
     </div>
   </div>
 </main>

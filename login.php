@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['name']    = $user['full_name'];
         $_SESSION['role']    = $user['role'];
         flash('success', 'Welcome back, ' . $user['full_name'] . '!');
-        redirect($user['role'] === 'Admin' ? 'admin/users.php' : 'dashboard.php');   
+        redirect('dashboard.php');   
     }
     $error = 'Invalid email or password.';
 }
