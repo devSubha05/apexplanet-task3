@@ -42,45 +42,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $st->execute();
             if ($id === (int)$_SESSION['user_id']) $_SESSION['name'] = $name;
-            flash('success', 'User updated.');
+            flash('success', 'User updated successfully.');
         } else {
             $hash = password_hash($pass, PASSWORD_DEFAULT);
             $st = $conn->prepare('INSERT INTO users (role_id, full_name, email, phone, password_hash) VALUES (?, ?, ?, ?, ?)');
             $st->bind_param('issss', $rid, $name, $email, $phoneDb, $hash);
             $st->execute();
-            flash('success', 'User added.');
+            flash('success', 'User added successfully.');
         }
         redirect('admin/users.php');
     }
     $u = ['full_name' => $name, 'email' => $email, 'phone' => $phone, 'role' => $role];
 }
 $pageTitle = $editing ? 'Edit User' : 'Add User';
+$bodyClass = 'dashboard-bg';
 require __DIR__ . '/../includes/header.php';
 ?>
-<main class="container py-4" style="max-width:640px">
-  <div class="card shadow-sm">
-    <div class="card-header bg-white fw-semibold"><?= $editing ? 'Update user' : 'Add new user' ?></div>
-    <div class="card-body p-4">
-      <form method="post" novalidate class="needs-validation">
-        <?= csrf_field() ?>
-        <div class="mb-3">
-          <label class="form-label" for="full_name">Full name</label>
-          <input class="form-control <?= isset($errors['full_name']) ? 'is-invalid' : '' ?>" id="full_name" name="full_name" value="<?= e($u['full_name']) ?>" required minlength="2" maxlength="100">
+<main class="container py-4 dashboard-main" style="max-width:680px">
+  <?= flash_render() ?>
+
+  <!-- Header Banner with Entrance Animation -->
+  <div class="card dashboard-card dashboard-banner p-4 mb-4 animate-slide-up-1">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-1 small">
+            <li class="breadcrumb-item"><a href="../dashboard.php" class="text-teal"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="users.php" class="text-teal">Users</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><?= $editing ? 'Edit' : 'Add' ?></li>
+          </ol>
+        </nav>
+        <h1 class="h3 fw-bold mb-1 text-dark"><?= $editing ? 'Update User Account' : 'Create New User' ?></h1>
+        <p class="text-muted small mb-0"><?= $editing ? 'Modify user credentials, contact details, and role permissions.' : 'Register a new user directly into the system with custom role.' ?></p>
+      </div>
+      <div>
+        <a href="users.php" class="btn btn-outline-teal btn-sm px-3 py-2">
+          <i class="bi bi-arrow-left me-1"></i> Back to Users
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Card with Entrance Animation -->
+  <div class="card dashboard-card p-4 p-md-5 mb-4 animate-slide-up-2">
+    <div class="d-flex align-items-center gap-2 pb-3 mb-4 border-bottom">
+      <i class="bi <?= $editing ? 'bi-person-gear' : 'bi-person-plus' ?> text-teal fs-4"></i>
+      <h2 class="h5 fw-bold mb-0 text-dark"><?= $editing ? 'Account Information' : 'User Details' ?></h2>
+    </div>
+
+    <form method="post" novalidate class="needs-validation">
+      <?= csrf_field() ?>
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="full_name">Full Name <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text bg-white text-teal"><i class="bi bi-person"></i></span>
+          <input class="form-control <?= isset($errors['full_name']) ? 'is-invalid' : '' ?>" id="full_name" name="full_name" value="<?= e($u['full_name']) ?>" required minlength="2" maxlength="100" placeholder="e.g. John Doe">
           <div class="invalid-feedback"><?= e($errors['full_name'] ?? 'Enter a name (2-100 characters).') ?></div>
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="email">Email</label>
-          <input type="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>" id="email" name="email" value="<?= e($u['email']) ?>" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold" for="email">Email Address <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text bg-white text-teal"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>" id="email" name="email" value="<?= e($u['email']) ?>" required placeholder="name@example.com">
           <div class="invalid-feedback"><?= e($errors['email'] ?? 'Enter a valid email address.') ?></div>
         </div>
-        <div class="row g-3 mb-3">
-          <div class="col-sm-6">
-            <label class="form-label" for="phone">Phone</label>
-            <input class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>" id="phone" name="phone" value="<?= e($u['phone']) ?>" pattern="\+?[0-9 \-]{7,15}">
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-sm-6">
+          <label class="form-label fw-semibold" for="phone">Phone Number</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white text-teal"><i class="bi bi-telephone"></i></span>
+            <input class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>" id="phone" name="phone" value="<?= e($u['phone']) ?>" pattern="\+?[0-9 \-]{7,15}" placeholder="+1 234 567 8900">
             <div class="invalid-feedback"><?= e($errors['phone'] ?? 'Enter a valid phone number.') ?></div>
           </div>
-          <div class="col-sm-6">
-            <label class="form-label" for="role">Role</label>
+        </div>
+
+        <div class="col-sm-6">
+          <label class="form-label fw-semibold" for="role">User Role <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <span class="input-group-text bg-white text-teal"><i class="bi bi-shield"></i></span>
             <select class="form-select <?= isset($errors['role']) ? 'is-invalid' : '' ?>" id="role" name="role" required>
               <?php foreach ($roles as $r): ?>
                 <option value="<?= e($r['name']) ?>" <?= $u['role'] === $r['name'] ? 'selected' : '' ?>><?= e($r['name']) ?></option>
@@ -89,20 +132,25 @@ require __DIR__ . '/../includes/header.php';
             <div class="invalid-feedback"><?= e($errors['role'] ?? 'Choose a role.') ?></div>
           </div>
         </div>
-        <div class="mb-4">
-          <label class="form-label" for="password">Password <?= $editing ? '<span class="text-muted small">(leave blank to keep current)</span>' : '' ?></label>
-          <div class="input-group">
-            <input type="password" class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>" id="password" name="password" <?= $editing ? '' : 'required' ?> autocomplete="new-password">
-            <button class="btn btn-outline-secondary toggle-pw" type="button" tabindex="-1"><i class="bi bi-eye"></i></button>
-            <div class="invalid-feedback"><?= e($errors['password'] ?? 'Min 8 characters with a letter and a number.') ?></div>
-          </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label fw-semibold" for="password">Password <?= $editing ? '<span class="text-muted small fw-normal">(leave blank to keep current)</span>' : '<span class="text-danger">*</span>' ?></label>
+        <div class="input-group">
+          <span class="input-group-text bg-white text-teal"><i class="bi bi-lock"></i></span>
+          <input type="password" class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>" id="password" name="password" <?= $editing ? '' : 'required' ?> autocomplete="new-password" placeholder="<?= $editing ? 'Leave blank to preserve password' : 'Min 8 chars, letter & number' ?>">
+          <button class="btn btn-outline-secondary toggle-pw" type="button" tabindex="-1"><i class="bi bi-eye"></i></button>
+          <div class="invalid-feedback"><?= e($errors['password'] ?? 'Min 8 characters with a letter and a number.') ?></div>
         </div>
-        <div class="text-end">
-          <a href="users.php" class="btn btn-light">Cancel</a>
-          <button class="btn btn-teal"><?= $editing ? 'Update' : 'Add user' ?></button>
-        </div>
-      </form>
-    </div>
+      </div>
+
+      <div class="d-flex justify-content-end align-items-center gap-2 pt-3 border-top">
+        <a href="users.php" class="btn btn-outline-secondary px-4 py-2">Cancel</a>
+        <button class="btn btn-teal px-4 py-2 shadow-sm">
+          <i class="bi bi-check2-circle me-1"></i> <?= $editing ? 'Update User' : 'Create User' ?>
+        </button>
+      </div>
+    </form>
   </div>
 </main>
 <?php require __DIR__ . '/../includes/footer.php'; ?>
