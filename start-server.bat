@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 title ApexPlanet Task-3 - User Management Server
 cls
 
@@ -10,7 +11,7 @@ echo.
 :: 1. Check and start MariaDB / MySQL Server
 echo [1/2] Checking MySQL / MariaDB Server...
 tasklist /FI "IMAGENAME eq mysqld.exe" 2>NUL | find /I /N "mysqld.exe">NUL
-if "%ERRORLEVEL%"=="0" (
+if !ERRORLEVEL!==0 (
     echo [OK] MySQL / MariaDB is already running on port 3306.
 ) else (
     echo Starting MySQL / MariaDB server...
@@ -22,11 +23,12 @@ if "%ERRORLEVEL%"=="0" (
         start "MySQL Server" /min mysqld --console
     )
 
-    :: Allow MariaDB 2 seconds to initialize
-    ping 127.0.0.1 -n 3 >NUL
+    :: Allow MariaDB 4 seconds to initialize
+    echo Waiting for MariaDB to start...
+    ping 127.0.0.1 -n 5 >NUL
 
     tasklist /FI "IMAGENAME eq mysqld.exe" 2>NUL | find /I /N "mysqld.exe">NUL
-    if "%ERRORLEVEL%"=="0" (
+    if !ERRORLEVEL!==0 (
         echo [OK] MySQL server started successfully on port 3306.
     ) else (
         echo [WARNING] MySQL did not respond immediately. Please verify MariaDB service.
