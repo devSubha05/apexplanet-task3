@@ -66,9 +66,9 @@ require __DIR__ . '/../includes/header.php';
           </tr>
         </thead>
         <tbody>
-        <?php foreach ($users as $r): ?>
+        <?php foreach ($users as $idx => $r): ?>
           <tr>
-            <td class="ps-4 text-secondary fw-semibold"><?= (int)$r['id'] ?></td>
+            <td class="ps-4 text-secondary fw-semibold"><?= $idx + 1 ?></td>
             <td>
               <div class="d-flex align-items-center gap-3">
                 <div class="avatar-wrapper">
