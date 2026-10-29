@@ -61,7 +61,6 @@ require __DIR__ . '/../includes/header.php';
 <main class="container py-4 dashboard-main" style="max-width:680px">
   <?= flash_render() ?>
 
-  <!-- Box 1: Header Banner (Teal & Emerald Box) -->
   <div class="card dashboard-card box-teal p-4 mb-4 animate-slide-up-1">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
       <div>
@@ -83,7 +82,6 @@ require __DIR__ . '/../includes/header.php';
     </div>
   </div>
 
-  <!-- Box 2: Form Card (Electric Purple & Indigo Box) -->
   <div class="card dashboard-card box-purple p-4 p-md-5 mb-4 animate-slide-up-2">
     <div class="d-flex align-items-center gap-3 pb-3 mb-4 border-bottom border-secondary border-opacity-25">
       <span class="icon-box-purple"><i class="bi <?= $editing ? 'bi-person-gear' : 'bi-person-plus' ?>"></i></span>

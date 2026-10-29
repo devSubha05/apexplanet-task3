@@ -1,5 +1,5 @@
 <?php
-// "Admin Name" admin@example.com "StrongPass123"
+// "Admin Name" admin@example.com "StrongPass123" Admin1234
 if (PHP_SAPI !== 'cli') { http_response_code(403); exit('Run this script from the command line only.'); }
 require __DIR__ . '/includes/init.php';
 [$script, $name, $email, $pass] = $argv + [null, null, null, null];

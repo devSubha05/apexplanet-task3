@@ -19,7 +19,6 @@ require __DIR__ . '/../includes/header.php';
 <main class="container py-4 dashboard-main">
   <?= flash_render() ?>
 
-  <!-- Box 1: Top Hero & Search Banner (Electric Purple & Indigo Box) -->
   <div class="card dashboard-card box-purple p-4 mb-4 animate-slide-up-1">
     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
       <div>
@@ -53,7 +52,6 @@ require __DIR__ . '/../includes/header.php';
     </div>
   </div>
 
-  <!-- Box 2: Users Table Card (Cyan & Sky Blue Box) -->
   <div class="card dashboard-card box-cyan overflow-hidden mb-4 animate-slide-up-2">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">

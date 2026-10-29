@@ -1,6 +1,3 @@
-/* ========================================================
-   APEXPLANET USER MANAGEMENT - LUXURY DARK PORTAL DESIGN
-   ======================================================== */
 :root { 
   --bg-dark-1: #090e1a;
   --bg-dark-2: #0b1329;
@@ -30,9 +27,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ========================================================
-   GLOBAL DARK PORTAL BACKGROUND (Whole Portal)
-   ======================================================== */
 body,
 .dashboard-bg,
 .auth-bg {
@@ -48,7 +42,6 @@ body,
   color: #e2e8f0;
 }
 
-/* Ambient Floating Glowing Aura Orbs */
 body::before,
 body::after,
 .dashboard-bg::before,
@@ -88,9 +81,6 @@ body::after,
   animation-delay: -6s;
 }
 
-/* ========================================================
-   PORTAL NAVBAR
-   ======================================================== */
 .portal-navbar {
   background: rgba(9, 14, 26, 0.88) !important;
   backdrop-filter: blur(18px);
@@ -121,9 +111,6 @@ body::after,
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* ========================================================
-   MANY COLOUR ADD BOX - MULTI-COLOR BOXES & CARDS
-   ======================================================== */
 .dashboard-main {
   position: relative;
   z-index: 1;
@@ -167,8 +154,6 @@ body::after,
   box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.55);
 }
 
-/* Individual Distinct Box Colors */
-/* 1. Rainbow / Multicolor Iridescent Box */
 .box-multicolor::before {
   content: '';
   position: absolute;
@@ -181,7 +166,6 @@ body::after,
   box-shadow: 0 20px 45px -8px rgba(139, 92, 246, 0.25);
 }
 
-/* 2. Teal & Emerald Vibrant Box */
 .box-teal::before {
   content: '';
   position: absolute;
@@ -194,7 +178,6 @@ body::after,
   box-shadow: 0 20px 45px -8px rgba(20, 184, 166, 0.25);
 }
 
-/* 3. Electric Purple & Indigo Box */
 .box-purple::before {
   content: '';
   position: absolute;
@@ -207,7 +190,6 @@ body::after,
   box-shadow: 0 20px 45px -8px rgba(99, 102, 241, 0.25);
 }
 
-/* 4. Sunset Amber & Orange Box */
 .box-amber::before {
   content: '';
   position: absolute;
@@ -220,7 +202,6 @@ body::after,
   box-shadow: 0 20px 45px -8px rgba(245, 158, 11, 0.25);
 }
 
-/* 5. Vivid Rose & Pink Box */
 .box-rose::before {
   content: '';
   position: absolute;
@@ -233,7 +214,6 @@ body::after,
   box-shadow: 0 20px 45px -8px rgba(244, 63, 94, 0.25);
 }
 
-/* 6. Cyan & Sky Blue Box */
 .box-cyan::before {
   content: '';
   position: absolute;
@@ -246,7 +226,6 @@ body::after,
   box-shadow: 0 20px 45px -8px rgba(6, 182, 212, 0.25);
 }
 
-/* 7. Mint & Emerald Box */
 .box-emerald::before {
   content: '';
   position: absolute;
@@ -259,9 +238,6 @@ body::after,
   box-shadow: 0 20px 45px -8px rgba(16, 185, 129, 0.25);
 }
 
-/* ========================================================
-   VIBRANT MULTI-COLOR GRADIENT BADGES
-   ======================================================== */
 .badge-gradient-purple {
   background: linear-gradient(135deg, #8b5cf6, #6366f1);
   color: #fff;
@@ -297,9 +273,6 @@ body::after,
   box-shadow: 0 2px 8px rgba(6, 182, 212, 0.35);
 }
 
-/* ========================================================
-   VIBRANT MULTI-COLOR ICON BUBBLES
-   ======================================================== */
 .icon-box-cyan {
   width: 44px; height: 44px;
   background: rgba(6, 182, 212, 0.15);
@@ -360,9 +333,6 @@ body::after,
   font-size: 1.25rem;
 }
 
-/* ========================================================
-   KEYFRAME ANIMATIONS
-   ======================================================== */
 @keyframes floatAura {
   0% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(70px, 50px) scale(1.15); }
@@ -407,7 +377,6 @@ body::after,
   }
 }
 
-/* Stagger Entrance Classes */
 .animate-slide-up-1 {
   animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -427,9 +396,6 @@ body::after,
   opacity: 0;
 }
 
-/* ========================================================
-   TYPOGRAPHY, BUTTONS & FORM INPUTS (Dark Mode)
-   ======================================================== */
 .text-teal { color: var(--teal) !important; }
 .bg-teal { background: var(--teal) !important; }
 .border-teal { border-color: var(--teal) !important; }
@@ -483,7 +449,6 @@ body::after,
 a { color: #38bdf8; text-decoration: none; }
 a:hover { color: #7dd3fc; }
 
-/* Dark Form Controls */
 .form-control,
 .form-select {
   background-color: rgba(15, 23, 42, 0.75) !important;
@@ -518,9 +483,6 @@ a:hover { color: #7dd3fc; }
   color: #94a3b8 !important;
 }
 
-/* ========================================================
-   AVATAR, HERO & LIST ITEMS
-   ======================================================== */
 .avatar { 
   border-radius: 50%; 
   object-fit: cover; 
@@ -578,7 +540,6 @@ a:hover { color: #7dd3fc; }
   padding-left: 1.65rem;
 }
 
-/* Multi-color Metric Stats Card */
 .stat-card-gradient {
   color: #fff;
   border-radius: 1.25rem;
@@ -646,9 +607,6 @@ a:hover { color: #7dd3fc; }
   transform: scale(1.12) rotate(6deg);
 }
 
-/* ========================================================
-   TABLES (Dark Glass Portal)
-   ======================================================== */
 .table {
   color: #e2e8f0 !important;
   --bs-table-bg: transparent;
@@ -670,9 +628,6 @@ a:hover { color: #7dd3fc; }
   background-color: rgba(99, 102, 241, 0.07) !important;
 }
 
-/* ========================================================
-   MODALS (Dark Glass)
-   ======================================================== */
 .modal-content {
   background: rgba(15, 23, 42, 0.94) !important;
   backdrop-filter: blur(20px);
@@ -686,7 +641,6 @@ a:hover { color: #7dd3fc; }
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Dark Breadcrumb */
 .breadcrumb-item + .breadcrumb-item::before {
   color: #64748b !important;
 }

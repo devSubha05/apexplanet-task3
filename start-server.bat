@@ -8,7 +8,6 @@ echo       ApexPlanet Task-3 - User Management Server
 echo ========================================================
 echo.
 
-:: 1. Check and start MariaDB / MySQL Server
 echo [1/2] Checking MySQL / MariaDB Server...
 tasklist /FI "IMAGENAME eq mysqld.exe" 2>NUL | find /I /N "mysqld.exe">NUL
 if !ERRORLEVEL!==0 (
@@ -23,7 +22,6 @@ if !ERRORLEVEL!==0 (
         start "MySQL Server" /min mysqld --console
     )
 
-    :: Allow MariaDB 4 seconds to initialize
     echo Waiting for MariaDB to start...
     ping 127.0.0.1 -n 5 >NUL
 
@@ -36,7 +34,6 @@ if !ERRORLEVEL!==0 (
 )
 
 echo.
-:: 2. Start PHP Built-in Server
 echo [2/2] Starting PHP server at http://localhost:8000 ...
 echo.
 echo ========================================================
@@ -45,8 +42,6 @@ echo  Press Ctrl+C to stop the PHP server.
 echo ========================================================
 echo.
 
-:: Automatically open default browser after a short delay
 start "" cmd /c "ping 127.0.0.1 -n 2 >NUL & start http://localhost:8000"
 
-:: Start PHP server
 php -S localhost:8000
