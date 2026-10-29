@@ -84,7 +84,7 @@ body::after,
 .portal-navbar {
   background: rgba(9, 14, 26, 0.88) !important;
   backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px); 
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.35);
   z-index: 1030;
@@ -93,7 +93,9 @@ body::after,
 .brand-gradient {
   background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 50%, #a855f7 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
   font-size: 1.25rem;
 }
 
